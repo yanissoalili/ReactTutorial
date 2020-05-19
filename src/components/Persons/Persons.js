@@ -1,6 +1,11 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Person from './Person/Person'
-class Persons extends Component {
+
+//class Persons extends Component { if we use shouldUpdate with specifics Propos
+
+// in case we shouldUpdate aftereach Props Update
+class Persons extends PureComponent {
+
   // static getDerivedStateFromProps (props, state) {
   // console.log('[Persons.js] getDrivedStateFromProps')
   // return state;
@@ -9,13 +14,22 @@ class Persons extends Component {
   // console.log('[Persons.js] componentWillReceiveProps', props)
   // }
 
+/* in case we use Component
+
   shouldComponentUpdate (nextProps, nextState) {
-    console.log('[Persons.js] should component update')
-    // compare two pointer because after evry changes we make a copie of person and after
-    // that copie to person with update so update =====> new Pointer
-    return nextProps.person !== this.props.person
+    
+    // compare two pointer because after evry changes we make a copie of person and after that
+    // copie to person with update so update =====> new Pointer
+    if (nextProps.persons !== this.props.persons ||
+            nextProps.changeNameHandler !== this.props.changeNameHandler ||
+            nextProps.deletePerson !== this.props.deletePerson
+    ) {
+      return true}
+    else {
+      return false
+    }
   }
-  
+*/
   getSnapshotBeforeUpdate (prevProps, prevState) {
     console.log('[Persons.js] get snapshot before updating')
     return { message: 'Snapshot' }
@@ -29,8 +43,9 @@ class Persons extends Component {
   }
 
   render () {
+    console.log('[Persons.js] render')
     return this.props.persons.map((person, index) => {
-      console.log('[Persons.js] render')
+      
       return (<Person
         name={person.name}
         age={person.age}
